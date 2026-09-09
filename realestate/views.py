@@ -64,7 +64,7 @@ def signup(request):
         if role == "agent":
             return redirect("agent_dashboard")
 
-        return redirect("home")
+        return redirect("homes")
 
     return render(request, "signup.html")
 
