@@ -25,7 +25,11 @@ SECRET_KEY = 'django-insecure-cokiklztjt!p)7z*8=#5xf!c2118198@cf(_f(we#qj6+7=-74
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "chizzyhomes.onrender.com",
+    "localhost",
+    "127.0.0.1",
+]
 
 
 # Application definition
