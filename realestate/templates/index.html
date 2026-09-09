@@ -1,0 +1,1781 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ChizzyHomes | Find Your Student Home</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700;800&display=swap"
+          rel="stylesheet">
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --purple: #7c3aed;
+            --purple-dark: #5b21b6;
+            --purple-light: #ede9fe;
+            --black: #08080b;
+            --dark: #111116;
+            --gray: #71717a;
+            --light: #f7f7f8;
+            --white: #ffffff;
+            --border: #e8e8ec;
+        }
+
+        body {
+            font-family: "DM Sans", sans-serif;
+            color: var(--black);
+            background: white;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button,
+        input,
+        select {
+            font-family: inherit;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 20;
+
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            padding: 28px 6%;
+            color: white;
+        }
+
+        .brand {
+            font-family: "Manrope", sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1.8px;
+        }
+
+        .brand span {
+            color: #a78bfa;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 34px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .nav-links a {
+            opacity: .9;
+            transition: .2s;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: #c4b5fd;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-login {
+            padding: 11px 20px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,.3);
+        }
+
+        .nav-signup {
+            background: white;
+            color: var(--black);
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 720px;
+            position: relative;
+
+            display: flex;
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    rgba(0,0,0,.82) 0%,
+                    rgba(0,0,0,.58) 45%,
+                    rgba(0,0,0,.20) 100%
+                ),
+                url("{% static 'images/lodge-14.png' %}");
+
+            background-size: cover;
+            background-position: center;
+        }
+
+        .hero-content {
+            width: 88%;
+            max-width: 1250px;
+            margin: 100px auto 0;-
+            color: white;
+        }
+
+        .location-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 9px 15px;
+            border-radius: 999px;
+
+            background: rgba(255,255,255,.12);
+            border: 1px solid rgba(255,255,255,.25);
+
+            backdrop-filter: blur(10px);
+
+            font-size: 13px;
+            font-weight: 600;
+
+            margin-bottom: 25px;
+        }
+
+        .location-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #a78bfa;
+        }
+
+        .hero h1 {
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(48px, 6vw, 82px);
+            line-height: .98;
+            letter-spacing: -4px;
+            max-width: 850px;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #a78bfa;
+        }
+
+        .hero-description {
+            max-width: 590px;
+            font-size: 18px;
+            line-height: 1.7;
+            color: rgba(255,255,255,.78);
+            margin-bottom: 35px;
+        }
+
+        /* =========================
+           SEARCH
+        ========================= */
+
+        .search-box {
+            width: 100%;
+            max-width: 1000px;
+
+            background: white;
+            border-radius: 16px;
+            padding: 9px;
+
+            display: flex;
+            align-items: center;
+
+            box-shadow: 0 25px 70px rgba(0,0,0,.25);
+        }
+
+        .search-field {
+            flex: 1;
+            padding: 12px 20px;
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .search-field label {
+            display: block;
+            color: #888;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: .7px;
+            margin-bottom: 4px;
+        }
+
+        .search-field input,
+        .search-field select {
+            width: 100%;
+            border: none;
+            outline: none;
+            background: transparent;
+            color: #222;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .search-button {
+            border: none;
+            background: var(--purple);
+            color: white;
+
+            padding: 18px 28px;
+            border-radius: 11px;
+
+            font-weight: 700;
+            cursor: pointer;
+
+            transition: .2s;
+        }
+
+        .search-button:hover {
+            background: var(--purple-dark);
+            transform: translateY(-1px);
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats {
+            max-width: 1250px;
+            width: 88%;
+            margin: -55px auto 0;
+
+            position: relative;
+            z-index: 5;
+
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+
+            background: white;
+            border-radius: 18px;
+
+            box-shadow: 0 15px 50px rgba(0,0,0,.09);
+
+            overflow: hidden;
+        }
+
+        .stat {
+            padding: 28px;
+            text-align: center;
+            border-right: 1px solid var(--border);
+        }
+
+        .stat:last-child {
+            border-right: none;
+        }
+
+        .stat strong {
+            display: block;
+            font-family: "Manrope", sans-serif;
+            font-size: 27px;
+            margin-bottom: 5px;
+        }
+
+        .stat span {
+            color: var(--gray);
+            font-size: 13px;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            max-width: 1250px;
+            width: 88%;
+            margin: 110px auto;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            margin-bottom: 35px;
+        }
+
+        .eyebrow {
+            color: var(--purple);
+            text-transform: uppercase;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1.4px;
+            margin-bottom: 10px;
+        }
+
+        .section-heading h2 {
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(32px, 4vw, 48px);
+            letter-spacing: -2px;
+        }
+
+        .section-heading p {
+            color: var(--gray);
+            max-width: 450px;
+            line-height: 1.6;
+        }
+
+        /* =========================
+           ACCOMMODATION TYPES
+        ========================= */
+
+        .type-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 16px;
+        }
+
+        .type-card {
+            position: relative;
+            height: 270px;
+            overflow: hidden;
+            border-radius: 15px;
+            color: white;
+            cursor: pointer;
+        }
+
+        .type-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .45s;
+        }
+
+        .type-card:hover img {
+            transform: scale(1.06);
+        }
+
+        .type-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+                transparent 25%,
+                rgba(0,0,0,.82)
+            );
+        }
+
+        .type-info {
+            position: absolute;
+            z-index: 2;
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .type-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .type-info span {
+            font-size: 12px;
+            color: rgba(255,255,255,.75);
+        }
+
+        /* =========================
+           FEATURED
+        ========================= */
+
+        .property-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        .property-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: .25s;
+        }
+
+        .property-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 45px rgba(0,0,0,.08);
+        }
+
+        .property-image {
+            position: relative;
+            height: 255px;
+            overflow: hidden;
+        }
+
+        .property-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: .4s;
+        }
+
+        .property-card:hover .property-image img {
+            transform: scale(1.04);
+        }
+
+        .verified {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+
+            background: white;
+            color: #222;
+
+            padding: 7px 11px;
+            border-radius: 999px;
+
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        .heart {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+
+            width: 36px;
+            height: 36px;
+
+            display: grid;
+            place-items: center;
+
+            background: rgba(255,255,255,.92);
+            border-radius: 50%;
+
+            font-size: 17px;
+        }
+
+        .property-content {
+            padding: 21px;
+        }
+
+        .property-type {
+            color: var(--purple);
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .8px;
+            margin-bottom: 8px;
+        }
+
+        .property-content h3 {
+            font-family: "Manrope", sans-serif;
+            font-size: 20px;
+            margin-bottom: 7px;
+        }
+
+        .property-location {
+            color: var(--gray);
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .property-bottom {
+            border-top: 1px solid var(--border);
+            padding-top: 15px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price strong {
+            font-family: "Manrope", sans-serif;
+            font-size: 19px;
+        }
+
+        .price span {
+            font-size: 11px;
+            color: var(--gray);
+        }
+
+        .view-btn {
+            color: var(--purple);
+            font-size: 13px;
+            font-weight: 800;
+        }
+
+        /* =========================
+           WHY CHIZZYHOMES
+        ========================= */
+
+        .why {
+            background: var(--dark);
+            color: white;
+            padding: 110px 0;
+        }
+
+        .why-inner {
+            width: 88%;
+            max-width: 1250px;
+            margin: auto;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 90px;
+            align-items: center;
+        }
+
+        .why h2 {
+            font-family: "Manrope", sans-serif;
+            font-size: clamp(38px, 4vw, 58px);
+            line-height: 1.05;
+            letter-spacing: -2.5px;
+            margin-bottom: 20px;
+        }
+
+        .why h2 span {
+            color: #a78bfa;
+        }
+
+        .why-description {
+            color: #a1a1aa;
+            line-height: 1.7;
+            max-width: 520px;
+        }
+
+        .features {
+            display: grid;
+            gap: 18px;
+        }
+
+        .feature {
+            display: flex;
+            gap: 18px;
+
+            padding: 22px;
+            border: 1px solid #29292f;
+            border-radius: 14px;
+
+            background: #15151b;
+        }
+
+        .feature-icon {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 12px;
+            background: #2a2040;
+
+            font-size: 19px;
+        }
+
+        .feature h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+        }
+
+        .feature p {
+            color: #92929b;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           HOW IT WORKS
+        ========================= */
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .step {
+            padding: 30px;
+            background: var(--light);
+            border-radius: 16px;
+        }
+
+        .step-number {
+            width: 44px;
+            height: 44px;
+
+            display: grid;
+            place-items: center;
+
+            border-radius: 50%;
+            background: var(--purple);
+            color: white;
+
+            font-weight: 800;
+            margin-bottom: 25px;
+        }
+
+        .step h3 {
+            font-family: "Manrope", sans-serif;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .step p {
+            color: var(--gray);
+            line-height: 1.6;
+            font-size: 14px;
+        }
+
+        /* =========================
+           AGENT CTA
+        ========================= */
+
+        .agent-section {
+            width: 88%;
+            max-width: 1250px;
+            margin: 110px auto;
+        }
+
+        .agent-box {
+            position: relative;
+            overflow: hidden;
+
+            background: var(--purple);
+            color: white;
+
+            border-radius: 24px;
+            padding: 70px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .agent-box::before {
+            content: "";
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.08);
+
+            right: 100px;
+            top: -180px;
+        }
+
+        .agent-box h2 {
+            position: relative;
+            font-family: "Manrope", sans-serif;
+            font-size: 42px;
+            letter-spacing: -2px;
+            max-width: 650px;
+            margin-bottom: 10px;
+        }
+
+        .agent-box p {
+            position: relative;
+            color: rgba(255,255,255,.78);
+        }
+
+        .agent-button {
+            position: relative;
+            background: white;
+            color: var(--purple);
+
+            padding: 16px 25px;
+            border-radius: 11px;
+
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: var(--black);
+            color: white;
+            padding: 75px 6% 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 60px;
+
+            max-width: 1250px;
+            margin: auto;
+        }
+
+        .footer-brand {
+            font-family: "Manrope", sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 15px;
+        }
+
+        .footer-brand span {
+            color: #a78bfa;
+        }
+
+        .footer-about {
+            color: #777780;
+            max-width: 340px;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+        .footer-column h4 {
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .footer-column a {
+            display: block;
+            color: #777780;
+            font-size: 13px;
+            margin-bottom: 13px;
+        }
+
+        .footer-column a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            max-width: 1250px;
+            margin: 60px auto 0;
+            padding-top: 25px;
+
+            border-top: 1px solid #202026;
+
+            display: flex;
+            justify-content: space-between;
+
+            color: #5f5f67;
+            font-size: 12px;
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 1000px) {
+
+            .nav-links {
+                display: none;
+            }
+
+            .type-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .property-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .why-inner {
+                grid-template-columns: 1fr;
+                gap: 50px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            .navbar {
+                padding: 22px 5%;
+            }
+
+            .brand {
+                font-size: 27px;
+            }
+
+            .nav-actions .nav-login {
+                display: none;
+            }
+
+            .hero {
+                min-height: 680px;
+            }
+
+            .hero-content {
+                width: 90%;
+                margin-top: 90px;
+            }
+
+            .hero h1 {
+                font-size: 48px;
+                letter-spacing: -2.5px;
+            }
+
+            .hero-description {
+                font-size: 15px;
+            }
+
+            .search-box {
+                display: block;
+                padding: 8px;
+            }
+
+            .search-field {
+                border-right: none;
+                border-bottom: 1px solid #eee;
+                padding: 12px;
+            }
+
+            .search-button {
+                width: 100%;
+                margin-top: 7px;
+            }
+
+            .stats {
+                width: 90%;
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .stat:nth-child(2) {
+                border-right: none;
+            }
+
+            .stat:nth-child(-n+2) {
+                border-bottom: 1px solid var(--border);
+            }
+
+            .section {
+                width: 90%;
+                margin: 80px auto;
+            }
+
+            .section-heading {
+                display: block;
+            }
+
+            .section-heading p {
+                margin-top: 15px;
+            }
+
+            .type-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .type-card {
+                height: 220px;
+            }
+
+            .property-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .why {
+                padding: 80px 0;
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+
+            .agent-section {
+                width: 90%;
+                margin: 80px auto;
+            }
+
+            .agent-box {
+                padding: 40px 30px;
+                display: block;
+            }
+
+            .agent-box h2 {
+                font-size: 34px;
+            }
+
+            .agent-button {
+                display: inline-block;
+                margin-top: 25px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 35px;
+            }
+
+            .footer-bottom {
+                display: block;
+            }
+
+            .footer-bottom span {
+                display: block;
+                margin-bottom: 8px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<header class="navbar">
+
+    <a href="{% url 'home' %}" class="brand">
+        Chizzy<span>Homes</span>
+    </a>
+
+    <nav class="nav-links">
+        <a href="property_list">Accommodation</a>
+        <a href="signin">Featured</a>
+
+        <a href="about\">How it works</a>
+    </nav>
+
+    <div class="nav-actions">
+        <a href="{% url 'signin' %}" class="nav-login">
+            Sign in
+        </a>
+
+        <a href="{% url 'signup' %}" class="nav-signup">
+            Get started
+        </a>
+    </div>
+
+</header>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="hero-content">
+
+        <div class="location-pill">
+            <span class="location-dot"></span>
+            Gidan Kwano, Minna
+        </div>
+
+        <h1>
+            Find a place<br>
+            you can call <span>home.</span>
+        </h1>
+
+        <p class="hero-description">
+            Discover student-friendly accommodation around Gidan Kwano,
+            from affordable self-contain rooms to comfortable apartments
+            close to campus.
+        </p>
+
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="stats">
+
+    <div class="stat">
+        <strong>100+</strong>
+        <span>Accommodation listings</span>
+    </div>
+
+    <div class="stat">
+        <strong>5</strong>
+        <span>Accommodation types</span>
+    </div>
+
+    <div class="stat">
+        <strong>G.K.</strong>
+        <span>Focused on Gidan Kwano</span>
+    </div>
+
+    <div class="stat">
+        <strong>24/7</strong>
+        <span>Easy property discovery</span>
+    </div>
+
+</section>
+
+
+<!-- =========================
+     ACCOMMODATION TYPES
+========================= -->
+
+<section class="section" id="accommodation">
+
+    <div class="section-heading">
+
+        <div>
+            <div class="eyebrow">Browse accommodation</div>
+
+            <h2>Find what fits you.</h2>
+        </div>
+
+        <p>
+            Whether you're looking for something simple and affordable
+            or a more comfortable space, start with an accommodation type.
+        </p>
+
+    </div>
+
+
+    <div class="type-grid">
+
+        <a href="#" class="type-card">
+
+            <img src="{% static 'images/lodge-10.png' %}" alt="Self contain lodge">
+
+            <div class="type-info">
+                <h3>Self-Contain</h3>
+                <span>Private student spaces</span>
+            </div>
+
+        </a>
+
+
+        <a href="#" class="type-card">
+
+            <img src="{% static 'images/lodge-6.jfif' %}" alt="Single rooms">
+
+            <div class="type-info">
+                <h3>Single Room</h3>
+                <span>Simple & affordable</span>
+            </div>
+
+        </a>
+
+
+        <a href="#" class="type-card">
+
+            <img src="{% static 'images/lodge-11.png' %}" alt="Shared apartment">
+
+            <div class="type-info">
+                <h3>Shared Apartment</h3>
+                <span>Share and save</span>
+            </div>
+
+        </a>
+
+
+        <a href="#" class="type-card">
+
+            <img src="{% static 'images/lodge-9.png' %}" alt="Room and parlour">
+
+            <div class="type-info">
+                <h3>Room & Parlour</h3>
+                <span>More room to live</span>
+            </div>
+
+        </a>
+
+
+        <a href="#" class="type-card">
+
+            <img src="{% static 'images/lodge-1.jfif' %}" alt="Apartment">
+
+            <div class="type-info">
+                <h3>Apartments</h3>
+                <span>Premium student living</span>
+            </div>
+
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FEATURED PROPERTIES
+========================= -->
+
+<section class="section" id="featured">
+
+    <div class="section-heading">
+
+        <div>
+            <div class="eyebrow">Featured accommodation</div>
+
+            <h2>Places worth seeing.</h2>
+        </div>
+
+        <p>
+            Explore accommodation selected for students looking for
+            convenient and comfortable places around Gidan Kwano.
+        </p>
+
+    </div>
+
+
+    <div class="property-grid">
+
+        <!-- PROPERTY 1 -->
+
+        <article class="property-card">
+
+            <div class="property-image">
+
+                <img
+                    src="{% static 'images/lodge-4.jfif' %}"
+                    alt="Student lodge"
+                >
+
+                <span class="verified">
+                    ✓ Verified
+                </span>
+
+                <span class="heart">
+                    ♡
+                </span>
+
+            </div>
+
+            <div class="property-content">
+
+                <div class="property-type">
+                    Self-Contain
+                </div>
+
+                <h3>
+                    Modern Student Lodge
+                </h3>
+
+                <div class="property-location">
+                    📍 Gidan Kwano, Minna
+                </div>
+
+                <div class="property-bottom">
+
+                    <div class="price">
+                        <strong>₦250k</strong>
+                        <span>/ year</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View property →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- PROPERTY 2 -->
+
+        <article class="property-card">
+
+            <div class="property-image">
+
+                <img
+                    src="{% static 'images/lodge-5.jfif' %}"
+                    alt="Modern Nigerian accommodation"
+                >
+
+                <span class="verified">
+                    ✓ Verified
+                </span>
+
+                <span class="heart">
+                    ♡
+                </span>
+
+            </div>
+
+            <div class="property-content">
+
+                <div class="property-type">
+                    Apartment
+                </div>
+
+                <h3>
+                    Modern Gidan Kwano Apartment
+                </h3>
+
+                <div class="property-location">
+                    📍 Near FUTMinna, Gidan Kwano
+                </div>
+
+                <div class="property-bottom">
+
+                    <div class="price">
+                        <strong>₦450k</strong>
+                        <span>/ year</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View property →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- PROPERTY 3 -->
+
+        <article class="property-card">
+
+            <div class="property-image">
+
+                <img
+                    src="{% static 'images/lodge-13.png' %}"
+                    alt="Student lodge rooms"
+                >
+
+                <span class="verified">
+                    ✓ Verified
+                </span>
+
+                <span class="heart">
+                    ♡
+                </span>
+
+            </div>
+
+            <div class="property-content">
+
+                <div class="property-type">
+                    Single Room
+                </div>
+
+                <h3>
+                    Affordable Student Lodge
+                </h3>
+
+                <div class="property-location">
+                    📍 Gidan Kwano, Minna
+                </div>
+
+                <div class="property-bottom">
+
+                    <div class="price">
+                        <strong>₦180k</strong>
+                        <span>/ year</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View property →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- PROPERTY 4 -->
+
+        <article class="property-card">
+
+            <div class="property-image">
+
+                <img
+                    src="{% static 'images/lodge-1.jfif' %}"
+                    alt="Luxury living room"
+                >
+
+                <span class="verified">
+                    ✓ Verified
+                </span>
+
+                <span class="heart">
+                    ♡
+                </span>
+
+            </div>
+
+            <div class="property-content">
+
+                <div class="property-type">
+                    Room & Parlour
+                </div>
+
+                <h3>
+                    Furnished Student Apartment
+                </h3>
+
+                <div class="property-location">
+                    📍 Gidan Kwano, Minna
+                </div>
+
+                <div class="property-bottom">
+
+                    <div class="price">
+                        <strong>₦500k</strong>
+                        <span>/ year</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View property →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- PROPERTY 5 -->
+
+        <article class="property-card">
+
+            <div class="property-image">
+
+                <img
+                    src="{% static 'images/lodge-2.jfif' %}"
+                    alt="Modern apartment living room"
+                >
+
+                <span class="verified">
+                    ✓ Verified
+                </span>
+
+                <span class="heart">
+                    ♡
+                </span>
+
+            </div>
+
+            <div class="property-content">
+
+                <div class="property-type">
+                    Apartment
+                </div>
+
+                <h3>
+                    Executive Student Apartment
+                </h3>
+
+                <div class="property-location">
+                    📍 Gidan Kwano, Minna
+                </div>
+
+                <div class="property-bottom">
+
+                    <div class="price">
+                        <strong>₦650k</strong>
+                        <span>/ year</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View property →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+        <!-- PROPERTY 6 -->
+
+        <article class="property-card">
+
+            <div class="property-image">
+
+                <img
+                    src="{% static 'images/lodges-12.jfif' %}"
+                    alt="Modern furnished apartment"
+                >
+
+                <span class="verified">
+                    ✓ Verified
+                </span>
+
+                <span class="heart">
+                    ♡
+                </span>
+
+            </div>
+
+            <div class="property-content">
+
+                <div class="property-type">
+                    Shared Apartment
+                </div>
+
+                <h3>
+                    Furnished Shared Apartment
+                </h3>
+
+                <div class="property-location">
+                    📍 Gidan Kwano, Minna
+                </div>
+
+                <div class="property-bottom">
+
+                    <div class="price">
+                        <strong>₦300k</strong>
+                        <span>/ year</span>
+                    </div>
+
+                    <a href="#" class="view-btn">
+                        View property →
+                    </a>
+
+                </div>
+
+            </div>
+
+        </article>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     WHY CHIZZYHOMES
+========================= -->
+
+<section class="why" id="why">
+
+    <div class="why-inner">
+
+        <div>
+
+            <div class="eyebrow">
+                Why ChizzyHomes?
+            </div>
+
+            <h2>
+                Finding accommodation
+                shouldn't feel like a <span>gamble.</span>
+            </h2>
+
+            <p class="why-description">
+                ChizzyHomes is built around the way students actually
+                search for accommodation. Browse different properties,
+                compare options and find a place that fits your budget
+                and lifestyle.
+            </p>
+
+        </div>
+
+
+        <div class="features">
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <h3>Student-focused</h3>
+
+                    <p>
+                        Accommodation is organized around the needs
+                        of students rather than traditional property buyers.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <h3>Easy discovery</h3>
+
+                    <p>
+                        Search by accommodation type, location and budget
+                        instead of scrolling endlessly through random posts.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                   ✓
+                </div>
+
+                <div>
+                    <h3>Compare your options</h3>
+
+                    <p>
+                        See important property information before deciding
+                        which accommodation is worth visiting.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <div class="feature">
+
+                <div class="feature-icon">
+                    ✓
+                </div>
+
+                <div>
+                    <h3>Built for Gidan Kwano</h3>
+
+                    <p>
+                        Start your accommodation search around one of
+                        Minna's major student areas.
+                    </p>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     HOW IT WORKS
+========================= -->
+
+<section class="section" id="how">
+
+    <div class="section-heading">
+
+        <div>
+            <div class="eyebrow">
+                Simple process
+            </div>
+
+            <h2>
+                Finding your next place is simple.
+            </h2>
+        </div>
+
+    </div>
+
+
+    <div class="steps">
+
+        <div class="step">
+
+            <div class="step-number">
+                01
+            </div>
+
+            <h3>
+                Search
+            </h3>
+
+            <p>
+                Enter your preferred location, accommodation type
+                and budget to narrow down your options.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                02
+            </div>
+
+            <h3>
+                Compare
+            </h3>
+
+            <p>
+                Look through property photos, prices, location and
+                available features before choosing your favourites.
+            </p>
+
+        </div>
+
+
+        <div class="step">
+
+            <div class="step-number">
+                03
+            </div>
+
+            <h3>
+                Visit & decide
+            </h3>
+
+            <p>
+                Contact the listing agent, arrange a viewing and
+                inspect the accommodation before making any payment.
+            </p>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     AGENT CTA
+========================= -->
+
+<section class="agent-section">
+
+    <div class="agent-box">
+
+        <div>
+
+            <h2>
+                Have a student lodge to list?
+            </h2>
+
+            <p>
+                Put your property in front of students searching
+                for accommodation around Gidan Kwano.
+            </p>
+
+        </div>
+
+        <a href="{% url 'signup' %}" class="agent-button">
+            List your property →
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="footer-grid">
+
+        <div>
+
+            <div class="footer-brand">
+                Chizzy<span>Homes</span>
+            </div>
+
+            <p class="footer-about">
+                A student accommodation platform helping students
+                discover places to live around Gidan Kwano, Minna.
+            </p>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Explore</h4>
+
+            <a href="term/">
+             Terms And Conditions
+            </a>
+
+            <a href="privacy/">
+                Privacy
+            </a>
+
+            <a href="signin/">
+                New listings
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>ChizzyHomes</h4>
+
+
+            <a href="about/">
+                About us
+            </a>
+
+            <a href="contact/">
+                Contact
+            </a>
+
+        </div>
+
+
+        <div class="footer-column">
+
+            <h4>Account</h4>
+
+            <a href="{% url 'signin' %}">
+                Sign in
+            </a>
+
+            <a href="{% url 'signup' %}">
+                Create account
+            </a>
+
+            <a href="#">
+                List a property
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <span>
+            © 2026 ChizzyHomes. All rights reserved.
+        </span>
+
+        <span>
+            Gidan Kwano · Minna · Niger State
+        </span>
+
+    </div>
+
+</footer>
+
+
+</body>
+</html>

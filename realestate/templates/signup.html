@@ -1,0 +1,540 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign Up | ChizzyHomes</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html,
+        body {
+            width: 100%;
+            min-height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow-x: hidden;
+            padding: 30px 15px;
+        }
+
+
+        /* =================================
+           FULL BACKGROUND IMAGE
+        ================================= */
+
+        .background {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+
+            object-fit: cover;
+            object-position: center;
+        }
+
+
+        /* =================================
+           DARK OVERLAY
+        ================================= */
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+
+            background: rgba(25, 12, 40, 0.58);
+
+            z-index: -1;
+        }
+
+
+        /* =================================
+           CONTAINER
+        ================================= */
+
+        .container {
+            width: 100%;
+            max-width: 430px;
+        }
+
+
+        /* =================================
+           LOGO
+        ================================= */
+
+        .logo {
+            text-align: center;
+
+            color: white;
+
+            font-size: 30px;
+            font-weight: 800;
+
+            margin-bottom: 20px;
+
+            text-shadow:
+                0 3px 15px rgba(0,0,0,.35);
+        }
+
+        .logo span {
+            color: #a66cff;
+        }
+
+
+        /* =================================
+           SIGNUP CARD
+        ================================= */
+
+        .card {
+            width: 100%;
+
+            background: white;
+
+            border-radius: 16px;
+
+            padding: 35px;
+
+            box-shadow:
+                0 20px 60px rgba(0,0,0,.35);
+        }
+
+
+        h1 {
+            font-size: 26px;
+
+            margin-bottom: 7px;
+
+            color: #19151f;
+        }
+
+
+        .subtitle {
+            color: #77717d;
+
+            font-size: 14px;
+
+            margin-bottom: 25px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =================================
+           DJANGO MESSAGES
+        ================================= */
+
+        .message {
+            background: #ffe8e8;
+
+            color: #b42318;
+
+            padding: 11px;
+
+            border-radius: 7px;
+
+            font-size: 13px;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* =================================
+           LABELS
+        ================================= */
+
+        label {
+            display: block;
+
+            font-size: 13px;
+
+            font-weight: 600;
+
+            margin-bottom: 7px;
+
+            color: #19151f;
+        }
+
+
+        /* =================================
+           INPUTS
+        ================================= */
+
+        input {
+            width: 100%;
+
+            padding: 13px;
+
+            border: 1px solid #ddd8e2;
+
+            border-radius: 8px;
+
+            outline: none;
+
+            margin-bottom: 17px;
+
+            font-size: 14px;
+
+            font-family: Arial, sans-serif;
+
+            transition: .2s;
+        }
+
+
+        input:focus {
+            border-color: #6c2bd9;
+
+            box-shadow:
+                0 0 0 3px rgba(108,43,217,.08);
+        }
+
+
+        input::placeholder {
+            color: #aaa;
+        }
+
+
+        /* =================================
+           AGENT ACCESS CODE
+        ================================= */
+
+        .agent-label {
+            display: flex;
+
+            align-items: center;
+
+            gap: 6px;
+        }
+
+        .optional {
+            color: #999;
+
+            font-size: 11px;
+
+            font-weight: normal;
+        }
+
+
+        /* =================================
+           BUTTON
+        ================================= */
+
+        button {
+            width: 100%;
+
+            padding: 14px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            background: #6c2bd9;
+
+            color: white;
+
+            font-weight: 700;
+
+            cursor: pointer;
+
+            font-size: 14px;
+
+            transition: .2s;
+        }
+
+
+        button:hover {
+            background: #4b1ba3;
+        }
+
+
+        /* =================================
+           SIGN IN
+        ================================= */
+
+        .signin {
+            text-align: center;
+
+            margin-top: 20px;
+
+            font-size: 13px;
+
+            color: #77717d;
+        }
+
+
+        .signin a {
+            color: #6c2bd9;
+
+            font-weight: 700;
+
+            text-decoration: none;
+        }
+
+
+        .signin a:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =================================
+           BACK LINK
+        ================================= */
+
+        .back {
+            display: block;
+
+            text-align: center;
+
+            margin-top: 18px;
+
+            color: white;
+
+            font-size: 13px;
+
+            text-decoration: none;
+
+            text-shadow:
+                0 2px 8px rgba(0,0,0,.4);
+        }
+
+
+        .back:hover {
+            text-decoration: underline;
+        }
+
+
+        /* =================================
+           MOBILE
+        ================================= */
+
+        @media (max-width: 480px) {
+
+            body {
+                padding: 20px 12px;
+            }
+
+            .logo {
+                font-size: 27px;
+            }
+
+            .card {
+                padding: 28px 22px;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+    <!-- FULL PROPERTY IMAGE -->
+
+    <img
+        class="background"
+        src="{% static 'images/lodge-14.png' %}"
+        alt=""
+    >
+
+
+    <!-- DARK TRANSPARENT LAYER -->
+
+    <div class="overlay"></div>
+
+
+    <!-- CONTENT -->
+
+    <div class="container">
+
+
+        <!-- LOGO -->
+
+        <div class="logo">
+            Chizzy<span>Homes</span>
+        </div>
+
+
+        <!-- SIGNUP FORM -->
+
+        <div class="card">
+
+            <h1>
+                Create your account
+            </h1>
+
+            <p class="subtitle">
+                Join ChizzyHomes and find your next home.
+            </p>
+
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message">
+                        {{ message }}
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- USERNAME -->
+
+                <label for="username">
+                    Username
+                </label>
+
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Choose a username"
+                    required
+                >
+
+
+                <!-- EMAIL -->
+
+                <label for="email">
+                    Email
+                </label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Enter your email"
+                    required
+                >
+
+
+                <!-- PHONE -->
+
+                <label for="phone_number">
+                    Phone Number
+                </label>
+
+                <input
+                    type="tel"
+                    id="phone_number"
+                    name="phone_number"
+                    placeholder="Enter your phone number"
+                    required
+                >
+
+
+                <!-- PASSWORD -->
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Create a password"
+                    required
+                >
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <label for="confirm_password">
+                    Confirm Password
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm_password"
+                    name="confirm_password"
+                    placeholder="Confirm your password"
+                    required
+                >
+
+
+                <!-- AGENT CODE -->
+
+                <label
+                    for="agent_access_code"
+                    class="agent-label"
+                >
+                    Agent Access Code
+
+                    <span class="optional">
+                        (optional)
+                    </span>
+                </label>
+
+                <input
+                    type="password"
+                    id="agent_access_code"
+                    name="agent_access_code"
+                    placeholder="Enter code if you're an agent"
+                >
+
+
+                <!-- CREATE ACCOUNT -->
+
+                <button type="submit">
+                    Create Account
+                </button>
+
+            </form>
+
+
+            <!-- SIGN IN -->
+
+            <div class="signin">
+
+                Already have an account?
+
+                <a href="{% url 'signin' %}">
+                    Sign In
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- BACK -->
+
+        <a
+            href="{% url 'home' %}"
+            class="back"
+        >
+            ← Back to ChizzyHomes
+        </a>
+
+    </div>
+
+</body>
+</html>

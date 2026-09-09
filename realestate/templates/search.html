@@ -1,0 +1,187 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Lodges | ChizzyHomes</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6c2bd9;
+            --primary-hover: #5821b6;
+            --primary-light: #f1ecf9;
+            --dark: #120e16;
+            --gray-bg: #f8f7fa;
+            --text-dark: #1c1921;
+            --text-muted: #656070;
+            --border-color: #e5e0eb;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--gray-bg); color: var(--text-dark); }
+
+        .navbar { height: 70px; background: white; border-bottom: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; padding: 0 6%; }
+        .logo { font-size: 22px; font-weight: 800; color: var(--dark); text-decoration: none; }
+        .logo span { color: var(--primary); }
+
+        /* SEARCH HEADER */
+        .search-header-container { background: #120e16; padding: 40px 6% 50px; color: white; }
+        .back-link { color: #a66cff; text-decoration: none; font-weight: 700; font-size: 14px; display: inline-block; margin-bottom: 16px; }
+
+        .search-form-wrapper { max-width: 900px; margin: 0 auto; }
+
+        /* SEARCH BAR */
+        .phrase-search-bar { display: flex; background: white; border-radius: 14px; overflow: hidden; padding: 6px; box-shadow: 0 10px 25px rgba(0,0,0,0.3); margin-bottom: 20px; }
+        .phrase-input { flex: 1; border: none; outline: none; padding: 14px 20px; font-size: 16px; font-weight: 600; font-family: inherit; color: var(--text-dark); }
+        .phrase-submit-btn { background: var(--primary); color: white; border: none; padding: 0 30px; border-radius: 10px; font-weight: 800; cursor: pointer; font-size: 15px; }
+        .phrase-submit-btn:hover { background: var(--primary-hover); }
+
+        /* FILTER STRIP */
+        .filter-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+        .filter-strip select, .filter-strip input { width: 100%; padding: 12px 14px; background: #231b2d; border: 1px solid #382d47; border-radius: 10px; color: white; font-family: inherit; font-size: 13px; font-weight: 600; outline: none; }
+
+        /* RESULTS CONTENT */
+        .content-container { width: 92%; max-width: 1200px; margin: 40px auto 80px; }
+        .results-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
+        .results-count { font-size: 20px; font-weight: 800; }
+
+        /* CARDS GRID */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 24px; }
+        .lodge-card { background: white; border-radius: 16px; overflow: hidden; border: 1px solid var(--border-color); text-decoration: none; color: inherit; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
+        .lodge-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); }
+
+        .card-img-container { position: relative; height: 190px; background: #eee; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; }
+        .price-badge { position: absolute; bottom: 12px; right: 12px; background: rgba(18, 14, 22, 0.9); color: white; padding: 6px 12px; border-radius: 8px; font-weight: 800; font-size: 14px; }
+
+        .card-body { padding: 18px; display: flex; flex-direction: column; flex-grow: 1; }
+        .lodge-title { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+        .lodge-zone { font-size: 13px; color: var(--primary); font-weight: 700; margin-bottom: 10px; }
+
+        /* DESCRIPTION FIELD */
+        .lodge-description { font-size: 13px; color: var(--text-muted); line-height: 1.5; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis; }
+
+        /* PAGINATION */
+        .pagination { margin-top: 50px; text-align: center; display: flex; justify-content: center; gap: 12px; align-items: center; }
+        .page-btn { padding: 10px 18px; background: white; border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-dark); text-decoration: none; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar">
+        <a href="{% url 'homes' %}" class="logo">Chizzy<span>Homes</span></a>
+        <a href="{% url 'property_list' %}" style="text-decoration: none; color: var(--text-muted); font-weight: 700; font-size: 14px;">Home</a>
+    </nav>
+
+    <!-- SEARCH HERO BAR -->
+    <div class="search-header-container">
+        <div class="search-form-wrapper">
+            <a href="{% url 'homes' %}" class="back-link">← Back to Homepage</a>
+            <h2 style="font-size: 28px; font-weight: 800; margin-bottom: 20px;">Search FUT Minna Lodges</h2>
+
+            <form method="GET" action="{% url 'property_list' %}">
+                <!-- PHRASE & WORD SEARCH BAR -->
+                <div class="phrase-search-bar">
+                    <input type="text" name="q" value="{{ query }}" class="phrase-input" placeholder="Type words or phrases e.g. 'Starlink', 'tiled single room', 'munchbox'...">
+                    <button type="submit" class="phrase-submit-btn">Search</button>
+                </div>
+
+                <!-- CATEGORICAL FILTERS WITH PRICE RANGE -->
+                <div class="filter-strip">
+                    <select name="zone" onchange="this.form.submit()">
+                        <option value="">All Locations / Zones</option>
+                        <option value="gk_main_gate" {% if selected_zone == 'gk_main_gate' %}selected{% endif %}>Gidan Kwano - Front Of School</option>
+                        <option value="gk_express_south_west" {% if selected_zone == 'gk_express_south_west' %}selected{% endif %}>Gidan Kwano - Munchbox</option>
+                        <option value="gk_market_hub" {% if selected_zone == 'gk_market_hub' %}selected{% endif %}>Gidan Kwano - MM Castle</option>
+                        <option value="gk_residential_west" {% if selected_zone == 'gk_residential_west' %}selected{% endif %}>Gidan Kwano - RCF</option>
+                        <option value="gk_residential_east" {% if selected_zone == 'gk_residential_east' %}selected{% endif %}>Gidan Kwano - Talba Road</option>
+                        <option value="gk_express_south_south" {% if selected_zone == 'gk_express_south_south' %}selected{% endif %}>Gidan Kwano - Sambisa Axis</option>
+                        <option value="gk_express_south" {% if selected_zone == 'gk_express_south' %}selected{% endif %}>Gidan Kwano - Living Faith</option>
+                        <option value="gk_express_north" {% if selected_zone == 'gk_express_north' %}selected{% endif %}>Gidan Kwano - RGGC Chapel</option>
+                        <option value="dama_north" {% if selected_zone == 'dama_north' %}selected{% endif %}>Dama - North Campus Axis</option>
+                        <option value="dama_central" {% if selected_zone == 'dama_central' %}selected{% endif %}>Dama - Central Village</option>
+                        <option value="dama_south" {% if selected_zone == 'dama_south' %}selected{% endif %}>Dama - South Extension</option>
+                        <option value="gm_main_road" {% if selected_zone == 'gm_main_road' %}selected{% endif %}>Gidan Mangoro - Main Road</option>
+                        <option value="gm_interior" {% if selected_zone == 'gm_interior' %}selected{% endif %}>Gidan Mangoro - Interior Lodges</option>
+                        <option value="gm_east" {% if selected_zone == 'gm_east' %}selected{% endif %}>Gidan Mangoro - East Axis</option>
+                    </select>
+
+                    <select name="property_type" onchange="this.form.submit()">
+                        <option value="">All Apartment Types</option>
+                        <option value="self_contain" {% if selected_type == 'self_contain' %}selected{% endif %}>Self Contain</option>
+                        <option value="single_room" {% if selected_type == 'single_room' %}selected{% endif %}>Single Room</option>
+                        <option value="shared_apartment" {% if selected_type == 'shared_apartment' %}selected{% endif %}>Shared Apartment</option>
+                        <option value="room_parlour" {% if selected_type == 'room_parlour' %}selected{% endif %}>Room And Parlour</option>
+                        <option value="apartment" {% if selected_type == 'apartment' %}selected{% endif %}>Apartment</option>
+                    </select>
+
+                    <input type="number" name="min_price" value="{{ selected_min_price }}" placeholder="Min Price (₦)" onchange="this.form.submit()">
+
+                    <input type="number" name="max_price" value="{{ selected_max_price }}" placeholder="Max Price (₦)" onchange="this.form.submit()">
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MAIN RESULTS CONTENT -->
+    <main class="content-container">
+        <div class="results-meta">
+            <div class="results-count">
+                {% if query %}
+                    Results for "{{ query }}" ({{ total_results }})
+                {% else %}
+                    All Available Lodges ({{ total_results }})
+                {% endif %}
+            </div>
+            {% if query or selected_zone or selected_type or selected_min_price or selected_max_price %}
+                <a href="{% url 'property_list' %}" style="color: var(--primary); font-weight: 700; text-decoration: none; font-size: 14px;">Clear All Filters</a>
+            {% endif %}
+        </div>
+
+        <div class="cards-grid">
+            {% for property in page_obj %}
+                <a href="#" class="lodge-card">
+                    <div class="card-img-container">
+                        {% if property.images.first %}
+                            <img src="{{ property.images.first.image.url }}" class="card-img" alt="{{ property.title }}">
+                        {% else %}
+                            <img src="{% static 'images/placeholder.jpg' %}" class="card-img" alt="Placeholder">
+                        {% endif %}
+                        <div class="price-badge">₦{{ property.price }}</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="lodge-title">{{ property.title }}</div>
+                        <div class="lodge-zone">📍 {{ property.get_zone_display|default:property.location }}</div>
+
+                        <div class="lodge-description">
+                            {{ property.description|default:"No description provided for this listing." }}
+                        </div>
+                    </div>
+                </a>
+            {% empty %}
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 0; background: white; border-radius: 16px; border: 1px solid var(--border-color);">
+                    <h3 style="font-size: 20px; font-weight: 800; margin-bottom: 8px;">No lodges found matching your search</h3>
+                    <p style="color: var(--text-muted); font-size: 14px;">Try searching broader words like "water", "generator", "self contain", or adjust your price range.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- PAGINATION CONTROLS -->
+        {% if page_obj.has_other_pages %}
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}&q={{ query|urlencode }}&zone={{ selected_zone }}&property_type={{ selected_type }}&min_price={{ selected_min_price }}&max_price={{ selected_max_price }}" class="page-btn">← Prev</a>
+                {% endif %}
+
+                <span style="font-size: 14px; font-weight: 700;">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}&q={{ query|urlencode }}&zone={{ selected_zone }}&property_type={{ selected_type }}&min_price={{ selected_min_price }}&max_price={{ selected_max_price }}" class="page-btn">Next →</a>
+                {% endif %}
+            </div>
+        {% endif %}
+    </main>
+
+</body>
+</html>

@@ -1,0 +1,234 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sign In | ChizzyHomes</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:
+                linear-gradient(
+                    rgba(25, 12, 40, .75),
+                    rgba(25, 12, 40, .75)
+                ),
+                url("{% static 'images/lodge-14.png' %}");
+            background-size: cover;
+            background-position: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 430px;
+        }
+
+        .logo {
+            text-align: center;
+            color: white;
+            font-size: 30px;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+
+        .logo span {
+            color: #a66cff;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 35px;
+            box-shadow: 0 20px 60px rgba(0,0,0,.3);
+        }
+
+        h1 {
+            font-size: 26px;
+            margin-bottom: 7px;
+            color: #19151f;
+        }
+
+        .subtitle {
+            color: #77717d;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+
+        .message {
+            background: #ffe8e8;
+            color: #b42318;
+            padding: 11px;
+            border-radius: 7px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .label-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 7px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .forgot-link {
+            font-size: 12px;
+            color: #6c2bd9;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .forgot-link:hover {
+            text-decoration: underline;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ddd8e2;
+            border-radius: 8px;
+            outline: none;
+            margin-bottom: 17px;
+            font-size: 14px;
+        }
+
+        input:focus {
+            border-color: #6c2bd9;
+            box-shadow: 0 0 0 3px rgba(108,43,217,.08);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #6c2bd9;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background: #4b1ba3;
+        }
+
+        .signup {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #77717d;
+        }
+
+        .signup a {
+            color: #6c2bd9;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .back {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            color: white;
+            font-size: 13px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="logo">
+        Chizzy<span>Homes</span>
+    </div>
+
+    <div class="card">
+
+        <h1>Welcome back</h1>
+
+        <p class="subtitle">
+            Sign in to continue to ChizzyHomes.
+        </p>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Enter your username"
+                required
+            >
+
+            <div class="label-row">
+                <label for="password">
+                    Password
+                </label>
+                <a href="{% url 'password_reset' %}" class="forgot-link">Forgot Password?</a>
+            </div>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button type="submit">
+                Sign In
+            </button>
+
+        </form>
+
+        <div class="signup">
+            Don't have an account?
+            <a href="{% url 'signup' %}">Create one</a>
+        </div>
+
+    </div>
+
+    <a href="{% url 'home' %}" class="back">
+        ← Back to ChizzyHomes
+    </a>
+
+</div>
+
+</body>
+</html>

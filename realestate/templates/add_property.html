@@ -1,0 +1,792 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List Property | ChizzyHomes</title>
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f6f4f8;
+            color: #19151f;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+        .navbar {
+            height: 70px;
+            background: #19151f;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+            color: white;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .logo span {
+            color: #a66cff;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-right a {
+            color: #ddd;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .dashboard-btn {
+            background: #6c2bd9;
+            padding: 10px 16px;
+            border-radius: 7px;
+            color: white !important;
+            font-weight: 600;
+        }
+
+        /* =========================
+           PAGE LAYOUT
+        ========================= */
+        .page {
+            width: 94%;
+            max-width: 1250px;
+            margin: 40px auto 70px;
+        }
+
+        .page-header {
+            margin-bottom: 25px;
+        }
+
+        .page-header h1 {
+            font-size: 30px;
+            margin-bottom: 6px;
+        }
+
+        .page-header p {
+            color: #77717d;
+            font-size: 14px;
+        }
+
+        .layout-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 8px 30px rgba(0,0,0,.06);
+        }
+
+        .section {
+            margin-bottom: 28px;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 17px;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .section-description {
+            color: #888;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+
+        /* =========================
+           FORM FIELDS
+        ========================= */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 14px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .field label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd8e2;
+            border-radius: 8px;
+            background: white;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            outline: none;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #6c2bd9;
+            box-shadow: 0 0 0 3px rgba(108,43,217,.08);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        /* =========================
+           MANUAL COORD INPUT GROUP
+        ========================= */
+        .coord-input-group {
+            display: flex;
+            gap: 8px;
+            margin-top: 10px;
+            margin-bottom: 12px;
+        }
+
+        .coord-input-group input {
+            flex: 1;
+        }
+
+        .coord-btn {
+            background: #6c2bd9;
+            color: white;
+            border: none;
+            padding: 0 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s;
+        }
+
+        .coord-btn:hover {
+            background: #4b1ba3;
+        }
+
+        /* =========================
+           MAP & COORDINATES
+        ========================= */
+        #map {
+            width: 100%;
+            height: 420px;
+            border-radius: 10px;
+            border: 1px solid #ddd8e2;
+            z-index: 1;
+            background: #e5e3df;
+        }
+
+        .coords-box {
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 13px;
+            color: #6c2bd9;
+            font-weight: 600;
+        }
+
+        /* =========================
+           AMENITIES GRID
+        ========================= */
+        .amenities {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .amenity {
+            border: 1px solid #e1dce6;
+            border-radius: 8px;
+            padding: 10px 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background .2s, border-color .2s;
+        }
+
+        .amenity:hover {
+            border-color: #6c2bd9;
+            background: #faf7ff;
+        }
+
+        .amenity input {
+            width: 16px;
+            height: 16px;
+            accent-color: #6c2bd9;
+        }
+
+        .amenity span {
+            font-size: 13px;
+            color: #3e3943;
+        }
+
+        /* =========================
+           MEDIA UPLOADS
+        ========================= */
+        .media-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+
+        .upload-box {
+            border: 2px dashed #d8d0df;
+            border-radius: 10px;
+            padding: 20px 15px;
+            text-align: center;
+            background: #faf9fb;
+        }
+
+        .upload-icon {
+            font-size: 24px;
+            margin-bottom: 6px;
+        }
+
+        .upload-box h3 {
+            font-size: 13px;
+            margin-bottom: 4px;
+        }
+
+        .upload-box p {
+            color: #888;
+            font-size: 11px;
+            margin-bottom: 10px;
+        }
+
+        .upload-box input[type="file"] {
+            border: none;
+            padding: 0;
+            width: 100%;
+            background: transparent;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .file-info {
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #6c2bd9;
+        }
+
+        /* =========================
+           STATUS & ACTIONS
+        ========================= */
+        .status-options {
+            display: flex;
+            gap: 12px;
+        }
+
+        .status-option {
+            border: 1px solid #ddd8e2;
+            border-radius: 8px;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        .status-option input {
+            width: auto;
+            accent-color: #6c2bd9;
+        }
+
+        .form-actions {
+            border-top: 1px solid #eee;
+            padding-top: 20px;
+            margin-top: 20px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .cancel {
+            padding: 12px 20px;
+            border: 1px solid #ddd8e2;
+            border-radius: 8px;
+            background: white;
+            color: #555;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .submit {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            background: #6c2bd9;
+            color: white;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .submit:hover {
+            background: #4b1ba3;
+        }
+
+        .message {
+            background: #ffe8e8;
+            color: #b42318;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+        @media (max-width: 900px) {
+            .layout-grid {
+                grid-template-columns: 1fr;
+            }
+            #map {
+                height: 350px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .navbar { padding: 0 16px; }
+            .nav-right a:not(.dashboard-btn) { display: none; }
+            .form-grid, .media-grid, .amenities { grid-template-columns: 1fr; }
+            .form-actions { flex-direction: column; }
+            .cancel, .submit { width: 100%; text-align: center; }
+            .coord-input-group { flex-direction: column; }
+            .coord-btn { padding: 12px; width: 100%; }
+        }
+    </style>
+</head>
+
+<body>
+
+<nav class="navbar">
+    <div class="logo">
+        Chizzy<span>Homes</span>
+    </div>
+    <div class="nav-right">
+        <a href="{% url 'homes' %}">View Website</a>
+        <a href="{% url 'agent_dashboard' %}" class="dashboard-btn">Dashboard</a>
+    </div>
+</nav>
+
+<main class="page">
+
+    <div class="page-header">
+        <h1>List a Property</h1>
+        <p>Fill out the details below to publish accommodation for students.</p>
+    </div>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="layout-grid">
+
+            <div class="form-card">
+
+                <div class="section">
+                    <div class="section-title">Zone & Pinpoint Location</div>
+                    <div class="section-description">Select a zone, click the map, or paste exact GPS coordinates below.</div>
+
+                    <div class="field full">
+                        <label for="zone">Property Zone</label>
+                        <select id="zone" name="zone" onchange="onZoneChange(this.value)" required>
+                            <option value="">-- Select Property Zone --</option>
+                            <optgroup label="Gidan Kwano (GK)">
+                                <option value="gk_main_gate" selected>Gidan Kwano - Front Of School</option>
+                                <option value="gk_express_south_west">Gidan Kwano - Munchbox</option>
+                                <option value="gk_market_hub">Gidan Kwano - MM Castle</option>
+                                <option value="gk_residential_west">Gidan Kwano - RCF</option>
+                                <option value="gk_residential_east">Gidan Kwano - Talba Road</option>
+                                <option value="gk_express_south_south">Gidan Kwano - Sambisa Axis</option>
+                                <option value="gk_express_south">Gidan Kwano - Living Faith</option>
+                                <option value="gk_express_north">Gidan Kwano - RGGC Chapel</option>
+                            </optgroup>
+                            <optgroup label="Dama Axis">
+                                <option value="dama_north">Dama - North Campus Axis</option>
+                                <option value="dama_central">Dama - Central Village</option>
+                                <option value="dama_south">Dama - South Extension</option>
+                            </optgroup>
+                            <optgroup label="Gidan Mangoro">
+                                <option value="gm_main_road">Gidan Mangoro - Main Road Corridor</option>
+                                <option value="gm_interior">Gidan Mangoro - Interior Lodges</option>
+                                <option value="gm_east">Gidan Mangoro - East Axis</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="field full" style="margin-top: 14px;">
+                        <label for="manual-coords">Enter Exact Coordinates (Optional)</label>
+                        <div class="coord-input-group">
+                            <input type="text" id="manual-coords" placeholder="e.g. 9.537169, 6.467573">
+                            <button type="button" class="coord-btn" onclick="jumpToCoordinates()">Go to Location</button>
+                        </div>
+                    </div>
+
+                    <div id="map"></div>
+                    <div class="coords-box" id="coords-display">
+                        Selected Location: Lat 9.537169, Lng 6.467573
+                    </div>
+
+                    <input type="hidden" name="latitude" id="latitude" value="9.537169">
+                    <input type="hidden" name="longitude" id="longitude" value="6.467573">
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Property Media</div>
+                    <div class="section-description">Upload photos and optional video walkthrough.</div>
+
+                    <div class="media-grid">
+                        <div class="upload-box">
+                            <div class="upload-icon">🖼️</div>
+                            <h3>Photos (Max 4)</h3>
+                            <p>Upload room/building images.</p>
+                            <input type="file" name="images" id="images" accept="image/*" multiple required>
+                            <div class="file-info" id="image-info"></div>
+                        </div>
+
+                        <div class="upload-box">
+                            <div class="upload-icon">🎥</div>
+                            <h3>Video (Optional)</h3>
+                            <p>Short video tour file.</p>
+                            <input type="file" name="video" id="video" accept="video/*">
+                            <div class="file-info" id="video-info"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-card">
+
+                <div class="section">
+                    <div class="section-title">Property Information</div>
+                    <div class="section-description">General property details and features.</div>
+
+                    <div class="form-grid">
+                        <div class="field full">
+                            <label for="title">Property Title</label>
+                            <input type="text" id="title" name="title" placeholder="e.g. Modern Self-Contain Near FUT Minna" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="property_type">Property Type</label>
+                            <select id="property_type" name="property_type" required>
+                                <option value="">Select type</option>
+                                <option value="self_contain">Self Contain</option>
+                                <option value="single_room">Single Room</option>
+                                <option value="shared_apartment">Shared Apartment</option>
+                                <option value="room_parlour">Room & Parlour</option>
+                                <option value="apartment">Apartment</option>
+                            </select>
+                        </div>
+
+                        <div class="field">
+                            <label for="price">Price (₦)</label>
+                            <input type="number" id="price" name="price" placeholder="250000" min="0" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="location">City / Main Area</label>
+                            <input type="text" id="location" name="location" value="Gidan Kwano, Minna" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="address">Address / Landmark</label>
+                            <input type="text" id="address" name="address" placeholder="e.g. Opposite Main Gate Corridor">
+                        </div>
+
+                        <div class="field">
+                            <label for="bedrooms">Bedrooms</label>
+                            <input type="number" id="bedrooms" name="bedrooms" value="1" min="0" required>
+                        </div>
+
+                        <div class="field">
+                            <label for="bathrooms">Bathrooms</label>
+                            <input type="number" id="bathrooms" name="bathrooms" value="1" min="0" required>
+                        </div>
+
+                        <div class="field full">
+                            <label for="description">Description</label>
+                            <textarea id="description" name="description" placeholder="Describe the water access, power supply, distance to campus..." required></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Amenities</div>
+                    <div class="section-description">Select features available at this property.</div>
+
+                    <div class="amenities">
+                        <label class="amenity"><input type="checkbox" name="starlink"><span>📡 Starlink</span></label>
+                        <label class="amenity"><input type="checkbox" name="private_transformer"><span>⚡ Private Transformer</span></label>
+                        <label class="amenity"><input type="checkbox" name="water"><span>💧 Water</span></label>
+                        <label class="amenity"><input type="checkbox" name="generator"><span>🔌 Generator</span></label>
+                        <label class="amenity"><input type="checkbox" name="solar_power"><span>☀️ Solar Power</span></label>
+                        <label class="amenity"><input type="checkbox" name="security"><span>🛡️ Security</span></label>
+                        <label class="amenity"><input type="checkbox" name="parking"><span>🚗 Parking</span></label>
+                        <label class="amenity"><input type="checkbox" name="furnished"><span>🛋️ Furnished</span></label>
+                        <label class="amenity"><input type="checkbox" name="air_conditioning"><span>❄️ Air Conditioning</span></label>
+                        <label class="amenity"><input type="checkbox" name="water_heater"><span>Water Heater</span></label>
+                        <label class="amenity"><input type="checkbox" name="kitchen"><span>🍳 Kitchen</span></label>
+                        <label class="amenity"><input type="checkbox" name="borehole"><span>🚰 Borehole</span></label>
+                        <label class="amenity"><input type="checkbox" name="network_coverage"><span>📱 Good Network</span></label>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-title">Listing Status</div>
+                    <div class="status-options">
+                        <label class="status-option"><input type="radio" name="status" value="available" checked> Available</label>
+                        <label class="status-option"><input type="radio" name="status" value="rented"> Rented</label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <a href="{% url 'agent_dashboard' %}" class="cancel">Cancel</a>
+                    <button type="submit" class="submit">Publish Property</button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+
+</main>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+        // Exact Calibration Landmarks
+        const landmarks = {
+            'gk_express_north':       { name: 'Gidan Kwano - RGGC Chapel', center: [9.522128, 6.469032] },
+            'gk_residential_east':    { name: 'Gidan Kwano - Talba Road', center: [9.532226, 6.470052] },
+            'gk_main_gate':           { name: 'Gidan Kwano - Front Of School', center: [9.537169, 6.467573] },
+            'gk_express_south_west':  { name: 'Gidan Kwano - Munchbox', center: [9.539493, 6.468772] },
+            'gk_market_hub':          { name: 'Gidan Kwano - MM Castle', center: [9.542326, 6.470129] },
+            'gk_residential_west':    { name: 'Gidan Kwano - RCF', center: [9.543198, 6.472065] },
+            'gk_express_south_south': { name: 'Gidan Kwano - Sambisa Axis', center: [9.547800, 6.474722] },
+            'gk_express_south':       { name: 'Gidan Kwano - Living Faith', center: [9.536677, 6.472040] },
+
+            'dama_north':   { name: 'Dama - North Campus Axis', center: [9.556068, 6.479725] },
+            'dama_central': { name: 'Dama - Central Village', center: [9.557899, 6.482525] },
+            'dama_south':   { name: 'Dama - South Extension', center: [9.554688, 6.478230] },
+
+            'gm_main_road': { name: 'Gidan Mangoro - Main Road Corridor', center: [9.569533, 6.490854] },
+            'gm_interior':  { name: 'Gidan Mangoro - Interior Lodges', center: [9.569122, 6.493639] },
+            'gm_east':      { name: 'Gidan Mangoro - East Axis', center: [9.566028, 6.496071] }
+        };
+
+        const defaultLat = 9.537169;
+        const defaultLng = 6.467573;
+
+        // High-Resolution & Clear Tile Layers
+        const googleHybrid = L.tileLayer('https://{s}.google.com/vt/lyrs=s,h&x={x}&y={y}&z={z}', {
+            maxZoom: 20,
+            subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+            attribution: '© Google Maps'
+        });
+
+        const esriWorldImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 19,
+            attribution: 'Tiles © Esri'
+        });
+
+        const openStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        });
+
+        // Initialize Map using Google Hybrid as default for high detail
+        const map = L.map('map', {
+            center: [defaultLat, defaultLng],
+            zoom: 17,
+            layers: [googleHybrid]
+        });
+
+        L.control.layers({
+            "🛰️ High-Res Hybrid (Recommended)": googleHybrid,
+            "📡 Esri Satellite": esriWorldImagery,
+            "🗺️ Street Map": openStreetMap
+        }).addTo(map);
+
+        let marker = L.marker([defaultLat, defaultLng], { draggable: true }).addTo(map);
+
+        // Render landmark indicator pins
+        Object.keys(landmarks).forEach(key => {
+            const item = landmarks[key];
+            const circle = L.circleMarker(item.center, {
+                radius: 6,
+                color: '#6c2bd9',
+                fillColor: '#a66cff',
+                fillOpacity: 0.85,
+                weight: 2
+            }).addTo(map);
+
+            circle.bindTooltip(item.name, { permanent: false, direction: 'top' });
+        });
+
+        // Proximity Engine
+        function findNearestZone(lat, lng) {
+            let minDistance = Infinity;
+            let closestZoneKey = 'gk_main_gate';
+            const point = L.latLng(lat, lng);
+
+            Object.keys(landmarks).forEach(key => {
+                const landmarkLatLng = L.latLng(landmarks[key].center[0], landmarks[key].center[1]);
+                const distance = point.distanceTo(landmarkLatLng);
+
+                if (distance < minDistance) {
+                    minDistance = distance;
+                    closestZoneKey = key;
+                }
+            });
+
+            return {
+                zoneKey: closestZoneKey,
+                distanceMeters: Math.round(minDistance)
+            };
+        }
+
+        // Location Update Master Function
+        function updateLocationDetails(lat, lng) {
+            document.getElementById('latitude').value = lat.toFixed(6);
+            document.getElementById('longitude').value = lng.toFixed(6);
+
+            const result = findNearestZone(lat, lng);
+            const zoneSelect = document.getElementById('zone');
+
+            if (zoneSelect) {
+                zoneSelect.value = result.zoneKey;
+            }
+
+            const landmarkName = landmarks[result.zoneKey].name;
+            document.getElementById('coords-display').textContent =
+                `Selected Location: Lat ${lat.toFixed(6)}, Lng ${lng.toFixed(6)} (~${result.distanceMeters}m from ${landmarkName})`;
+
+            // Sync text input value format
+            document.getElementById('manual-coords').value = `${lat.toFixed(6)}, ${lng.toFixed(6)}`;
+        }
+
+        // Manual Coordinates Jump Handler
+        window.jumpToCoordinates = function() {
+            const rawVal = document.getElementById('manual-coords').value.trim();
+            if (!rawVal) {
+                alert("Please enter coordinates in 'Lat, Lng' format.");
+                return;
+            }
+
+            // Handles commas or spaces as separators
+            const parts = rawVal.split(/[\s,]+/);
+            if (parts.length >= 2) {
+                const lat = parseFloat(parts[0]);
+                const lng = parseFloat(parts[1]);
+
+                if (!isNaN(lat) && !isNaN(lng)) {
+                    map.flyTo([lat, lng], 18);
+                    marker.setLatLng([lat, lng]);
+                    updateLocationDetails(lat, lng);
+                } else {
+                    alert("Invalid numeric coordinates. Please use format: 9.537169, 6.467573");
+                }
+            } else {
+                alert("Invalid format. Enter latitude and longitude separated by a comma.");
+            }
+        };
+
+        // Event Handlers
+        map.on('click', function (e) {
+            marker.setLatLng(e.latlng);
+            updateLocationDetails(e.latlng.lat, e.latlng.lng);
+        });
+
+        marker.on('dragend', function () {
+            const pos = marker.getLatLng();
+            updateLocationDetails(pos.lat, pos.lng);
+        });
+
+        window.onZoneChange = function (selectedZone) {
+            const target = landmarks[selectedZone];
+            if (target) {
+                map.flyTo(target.center, 18);
+                marker.setLatLng(target.center);
+                updateLocationDetails(target.center[0], target.center[1]);
+            }
+        };
+
+        // Media limits
+        const imageInput = document.getElementById('images');
+        const imageInfo = document.getElementById('image-info');
+        if (imageInput) {
+            imageInput.addEventListener('change', function() {
+                if (this.files.length > 4) {
+                    alert('You can only upload a maximum of 4 images.');
+                    this.value = '';
+                    imageInfo.textContent = '';
+                } else if (this.files.length > 0) {
+                    imageInfo.textContent = `${this.files.length} file(s) selected`;
+                }
+            });
+        }
+
+        const videoInput = document.getElementById('video');
+        const videoInfo = document.getElementById('video-info');
+        if (videoInput) {
+            videoInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    videoInfo.textContent = `Selected: ${this.files[0].name}`;
+                }
+            });
+        }
+
+        // Initial setup
+        setTimeout(function () { map.invalidateSize(); }, 200);
+        updateLocationDetails(defaultLat, defaultLng);
+    });
+</script>
+
+</body>
+</html>
