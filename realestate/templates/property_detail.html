@@ -261,14 +261,14 @@
                         <p class="text-muted small mb-4">Contact the listing agent or ChizzyHomes support for inquiries, price negotiations, or inspection schedules.</p>
 
                         {% if property.agent and property.agent.phone_number %}
-                            <a href="tel:{{ property.agent.phone_number }}" class="btn btn-primary btn-lg w-100 fw-bold mb-2">
+                            <a href="tel:{{ 09136990775 }}" class="btn btn-primary btn-lg w-100 fw-bold mb-2">
                                 <i class="bi bi-telephone-fill me-2"></i> Call Agent
                             </a>
-                            <a href="https://wa.me/234{{ property.agent.phone_number|slice:'1:' }}?text=Hello,%20I'm%20interested%20in%20your%20property%20listing:%20{{ property.title|urlencode }}" target="_blank" class="btn btn-success btn-lg w-100 fw-bold mb-3">
-                                <i class="bi bi-whatsapp me-2"></i> WhatsApp Inspection
+                            <a href="https://wa.link/m55rro' }}?text=Hello,%20I'm%20interested%20in%20inspecting%20this%20property:%0A*{{ property.title|urlencode }}*%0A🔗%20{{ request.build_absolute_uri|urlencode }}" target="_blank" class="btn btn-success btn-lg w-100 fw-bold mb-3">
+                                <i class="bi bi-whatsapp me-2"></i> WhatsApp
                             </a>
                         {% else %}
-                            <a href="tel:+2348002449999" class="btn btn-primary btn-lg w-100 fw-bold mb-3">
+                            <a href="tel:+23470776669993" class="btn btn-primary btn-lg w-100 fw-bold mb-3">
                                 <i class="bi bi-telephone-fill me-2"></i> Contact ChizzyHomes
                             </a>
                         {% endif %}

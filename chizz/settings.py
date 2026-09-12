@@ -167,3 +167,5 @@ STATICFILES_DIRS = [
 
 # Required for production collectstatic
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+

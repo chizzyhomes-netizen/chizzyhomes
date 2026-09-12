@@ -33,6 +33,10 @@
             background: var(--gray-bg);
             color: var(--text-dark);
             line-height: 1.5;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
         /* ANNOUNCEMENT BAR */
@@ -43,6 +47,7 @@
             text-align: center;
             padding: 8px 16px;
             font-weight: 500;
+            width: 100%;
         }
         .announcement-bar span {
             color: #a66cff;
@@ -51,17 +56,20 @@
 
         /* NAVBAR */
         .navbar {
-            height: 72px;
+            min-height: 72px;
             background: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 0 6%;
+            padding: 10px 4%;
             position: sticky;
             top: 0;
             z-index: 1000;
             box-shadow: 0 2px 12px rgba(0,0,0,0.04);
             border-bottom: 1px solid var(--border-color);
+            width: 100%;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .logo-wrapper {
@@ -69,23 +77,27 @@
             align-items: center;
             gap: 10px;
             text-decoration: none;
+            min-width: 0;
+            flex-shrink: 0;
         }
 
         .navbar-logo-img {
-            height: 38px;
+            height: 36px;
             width: auto;
             object-fit: contain;
             border-radius: 6px;
             padding: 2px;
             background: white;
+            flex-shrink: 0;
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 800;
             color: var(--dark);
             text-decoration: none;
             letter-spacing: -0.5px;
+            white-space: nowrap;
         }
 
         .logo span {
@@ -95,17 +107,21 @@
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            min-width: 0;
         }
 
         .nav-link {
             text-decoration: none;
             color: var(--text-dark);
             font-weight: 700;
-            font-size: 14px;
-            padding: 8px 12px;
+            font-size: 13px;
+            padding: 8px 10px;
             border-radius: 8px;
             transition: background 0.2s;
+            white-space: nowrap;
         }
 
         .nav-link:hover {
@@ -114,13 +130,14 @@
 
         .agent-btn {
             background: var(--primary);
-            padding: 10px 18px;
+            padding: 8px 14px;
             border-radius: 10px;
             color: white !important;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             text-decoration: none;
             transition: background 0.2s;
+            white-space: nowrap;
         }
 
         .agent-btn:hover {
@@ -130,15 +147,16 @@
         .logout-btn {
             background: #fee2e2;
             color: #991b1b !important;
-            padding: 10px 16px;
+            padding: 8px 12px;
             border-radius: 10px;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 13px;
             text-decoration: none;
             transition: background 0.2s;
             border: none;
             cursor: pointer;
             font-family: inherit;
+            white-space: nowrap;
         }
 
         .logout-btn:hover {
@@ -153,6 +171,7 @@
             padding: 80px 6% 100px;
             text-align: center;
             overflow: hidden;
+            width: 100%;
         }
 
         .hero-badge {
@@ -167,6 +186,8 @@
             font-size: 13px;
             font-weight: 600;
             margin-bottom: 20px;
+            max-width: 100%;
+            text-align: left;
         }
 
         .badge-logo-img {
@@ -176,6 +197,7 @@
             background: white;
             border-radius: 3px;
             padding: 1px;
+            flex-shrink: 0;
         }
 
         .hero-title {
@@ -204,6 +226,7 @@
         .hero-search-wrapper {
             max-width: 680px;
             margin: 0 auto;
+            width: 100%;
         }
 
         .hero-search-form {
@@ -212,6 +235,7 @@
             padding: 6px;
             border-radius: 16px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            width: 100%;
         }
 
         .hero-search-input {
@@ -223,6 +247,7 @@
             font-weight: 600;
             font-family: inherit;
             color: var(--text-dark);
+            min-width: 0;
         }
 
         .hero-search-btn {
@@ -235,6 +260,8 @@
             font-size: 15px;
             cursor: pointer;
             transition: background 0.2s;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
 
         .hero-search-btn:hover {
@@ -246,6 +273,7 @@
             width: 92%;
             max-width: 1250px;
             margin: 60px auto 80px;
+            flex: 1;
         }
 
         /* TRUST BAR */
@@ -274,7 +302,7 @@
             font-weight: 600;
         }
 
-        /* RECENTLY VIEWED BAR */
+        /* RECENTLY VIEWED SECTION */
         .recent-box {
             display: none;
             background: #ffffff;
@@ -301,6 +329,8 @@
             justify-content: space-between;
             align-items: flex-end;
             margin-bottom: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         .section-title h2 {
@@ -318,6 +348,7 @@
             width: 100%;
             height: 480px;
             border-radius: 14px;
+            z-index: 1;
         }
 
         /* FEATURED GRID */
@@ -350,6 +381,7 @@
             position: relative;
             height: 200px;
             background: #eee;
+            flex-shrink: 0;
         }
 
         .card-img {
@@ -369,6 +401,7 @@
             padding: 4px 10px;
             border-radius: 20px;
             text-transform: uppercase;
+            z-index: 2;
         }
 
         .price-badge {
@@ -382,6 +415,7 @@
             border-radius: 8px;
             font-weight: 800;
             font-size: 15px;
+            z-index: 2;
         }
 
         .card-body {
@@ -480,6 +514,7 @@
             font-weight: 800;
             text-decoration: none;
             white-space: nowrap;
+            flex-shrink: 0;
         }
 
         /* FOOTER */
@@ -489,19 +524,88 @@
             padding: 40px 6%;
             text-align: center;
             font-size: 13px;
+            width: 100%;
+            margin-top: auto;
         }
 
         footer strong {
             color: white;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 850px) {
-            .hero-title { font-size: 30px; }
-            .hero-search-form { flex-direction: column; padding: 10px; gap: 8px; }
-            .hero-search-btn { height: 48px; }
-            .agent-banner { flex-direction: column; text-align: center; }
-            #master-map { height: 350px; }
+        /* RESPONSIVE MEDIA QUERIES */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 12px 3%;
+                justify-content: center;
+            }
+            .logo-wrapper {
+                margin-bottom: 2px;
+            }
+            .nav-right {
+                width: 100%;
+                justify-content: center;
+                gap: 6px;
+            }
+            .nav-link, .agent-btn, .logout-btn {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .hero-title {
+                font-size: 28px;
+                letter-spacing: -0.5px;
+            }
+            .hero-subtitle {
+                font-size: 14px;
+                margin-bottom: 24px;
+            }
+            .hero-search-form {
+                flex-direction: column;
+                padding: 6px;
+                gap: 6px;
+            }
+            .hero-search-input {
+                padding: 12px 14px;
+                font-size: 14px;
+                width: 100%;
+            }
+            .hero-search-btn {
+                width: 100%;
+                padding: 12px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+            .trust-bar {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+                padding: 16px;
+            }
+            .trust-item h4 {
+                font-size: 18px;
+            }
+            .trust-item p {
+                font-size: 11px;
+            }
+            .section-title h2 {
+                font-size: 20px;
+            }
+            .section-title p {
+                font-size: 12px;
+            }
+            #master-map {
+                height: 320px;
+            }
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+            .agent-banner h3 {
+                font-size: 20px;
+            }
+            .agent-banner p {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
@@ -641,7 +745,7 @@
             <h3>Are you a Lodge Owner or Caretaker?</h3>
             <p>List your property on ChizzyHomes and connect directly with verified FUT Minna students looking for accommodation.</p>
         </div>
-        <a href="{% url 'agent_dashboard' %}" class="cta-btn">List Property Now →</a>
+
     </div>
 
 </main>
