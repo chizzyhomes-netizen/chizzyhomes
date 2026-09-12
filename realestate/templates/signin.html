@@ -106,7 +106,6 @@
             border: 1px solid #ddd8e2;
             border-radius: 8px;
             outline: none;
-            margin-bottom: 17px;
             font-size: 14px;
         }
 
@@ -115,7 +114,33 @@
             box-shadow: 0 0 0 3px rgba(108,43,217,.08);
         }
 
-        button {
+        .input-group {
+            position: relative;
+            margin-bottom: 17px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: #77717d;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 0;
+            width: auto;
+            margin: 0;
+        }
+
+        .toggle-password:hover {
+            color: #6c2bd9;
+            background: none;
+        }
+
+        button[type="submit"] {
             width: 100%;
             padding: 14px;
             border: none;
@@ -128,7 +153,7 @@
             margin-top: 5px;
         }
 
-        button:hover {
+        button[type="submit"]:hover {
             background: #4b1ba3;
         }
 
@@ -184,17 +209,18 @@
 
             {% csrf_token %}
 
-            <label for="username">
-                Username
-            </label>
-
-            <input
-                type="text"
-                id="username"
-                name="username"
-                placeholder="Enter your username"
-                required
-            >
+            <div style="margin-bottom: 17px;">
+                <label for="username" style="margin-bottom: 7px;">
+                    Username
+                </label>
+                <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="Enter your username"
+                    required
+                >
+            </div>
 
             <div class="label-row">
                 <label for="password">
@@ -203,13 +229,16 @@
                 <a href="{% url 'password_reset' %}" class="forgot-link">Forgot Password?</a>
             </div>
 
-            <input
-                type="password"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-            >
+            <div class="input-group">
+                <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    placeholder="Enter your password"
+                    required
+                >
+                <button type="button" id="toggleBtn" class="toggle-password" onclick="togglePasswordVisibility()">Show</button>
+            </div>
 
             <button type="submit">
                 Sign In
@@ -229,6 +258,21 @@
     </a>
 
 </div>
+
+<script>
+    function togglePasswordVisibility() {
+        const passwordInput = document.getElementById('password');
+        const toggleBtn = document.getElementById('toggleBtn');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleBtn.textContent = 'Hide';
+        } else {
+            passwordInput.type = 'password';
+            toggleBtn.textContent = 'Show';
+        }
+    }
+</script>
 
 </body>
 </html>
