@@ -583,6 +583,24 @@
                     </div>
                 </div>
 
+                <!-- Contact & External Link Section Added Here -->
+                <div class="section">
+                    <div class="section-title">Contact & Whatapp Link</div>
+                    <div class="section-description">Provide contact phone number and whatsapp link.</div>
+
+                    <div class="form-grid">
+                        <div class="field">
+                            <label for="phone_number">Contact Phone Number</label>
+                            <input type="tel" id="phone_number" name="phone_number" placeholder="e.g. 08012345678">
+                        </div>
+
+                        <div class="field">
+                            <label for="link">Whatsapp link</label>
+                            <input type="url" id="link" name="link" >
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-actions">
                     <a href="{% url 'agent_dashboard' %}" class="cancel">Cancel</a>
                     <button type="submit" class="submit">Publish Property</button>

@@ -163,6 +163,8 @@ def add_property(request):
             bedrooms=request.POST.get("bedrooms", 1),
             bathrooms=request.POST.get("bathrooms", 1),
             status=request.POST.get("status", "available"),
+            phone_number=request.POST.get("phone_number", "").strip(),
+            link=request.POST.get("link", "").strip(),
 
             # Amenities
             starlink="starlink" in request.POST,
