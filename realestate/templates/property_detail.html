@@ -170,47 +170,145 @@
                 {% endif %}
 
                 <!-- Key Amenities Summary Bar -->
-                <div class="card card-body border-0 shadow-sm rounded-3 mb-4">
-                    <h5 class="fw-bold mb-3">Key Highlights</h5>
-                    <div class="row g-3 text-center">
-                        {% if property.bedrooms %}
-                        <div class="col-6 col-md-3">
-                            <div class="p-3 bg-light rounded-3">
-                                <i class="bi bi-door-closed fs-3 text-primary d-block mb-1"></i>
-                                <span class="fw-bold text-dark d-block">{{ property.bedrooms }} Bedrooms</span>
-                            </div>
-                        </div>
-                        {% endif %}
+             <div class="card card-body border-0 shadow-sm rounded-3 mb-4">
+    <h5 class="fw-bold mb-3">Key Highlights & Amenities</h5>
+    <div class="row g-3 text-center">
+        {% if property.bedrooms %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-door-closed fs-3 text-primary d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">{{ property.bedrooms }} Bedrooms</span>
+            </div>
+        </div>
+        {% endif %}
 
-                        {% if property.bathrooms %}
-                        <div class="col-6 col-md-3">
-                            <div class="p-3 bg-light rounded-3">
-                                <i class="bi bi-droplet fs-3 text-info d-block mb-1"></i>
-                                <span class="fw-bold text-dark d-block">{{ property.bathrooms }} Bathrooms</span>
-                            </div>
-                        </div>
-                        {% endif %}
+        {% if property.bathrooms %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-droplet fs-3 text-info d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">{{ property.bathrooms }} Bathrooms</span>
+            </div>
+        </div>
+        {% endif %}
 
-                        {% if property.solar_power or property.generator or property.private_transformer %}
-                        <div class="col-6 col-md-3">
-                            <div class="p-3 bg-warning bg-opacity-10 rounded-3">
-                                <i class="bi bi-lightning-charge-fill fs-3 text-warning d-block mb-1"></i>
-                                <span class="fw-bold text-dark d-block">Power Backup</span>
-                            </div>
-                        </div>
-                        {% endif %}
+        {% if property.starlink %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-info bg-opacity-10 rounded-3">
+                <i class="bi bi-wifi fs-3 text-info d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Starlink</span>
+            </div>
+        </div>
+        {% endif %}
 
-                        {% if property.starlink or property.network_coverage %}
-                        <div class="col-6 col-md-3">
-                            <div class="p-3 bg-info bg-opacity-10 rounded-3">
-                                <i class="bi bi-wifi fs-3 text-info d-block mb-1"></i>
-                                <span class="fw-bold text-dark d-block">Internet / WiFi</span>
-                            </div>
-                        </div>
-                        {% endif %}
-                    </div>
-                </div>
+        {% if property.private_transformer %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-warning bg-opacity-10 rounded-3">
+                <i class="bi bi-lightning-charge-fill fs-3 text-warning d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Private Transformer</span>
+            </div>
+        </div>
+        {% endif %}
 
+        {% if property.water %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-droplets fs-3 text-primary d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Water</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.generator %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-warning bg-opacity-10 rounded-3">
+                <i class="bi bi-plug fs-3 text-warning d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Generator</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.solar_power %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-warning bg-opacity-10 rounded-3">
+                <i class="bi bi-sun fs-3 text-warning d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Solar Power</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.security %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-shield-check fs-3 text-success d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Security</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.parking %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-car-front fs-3 text-secondary d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Parking Space</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.furnished %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-house-heart fs-3 text-danger d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Furnished</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.air_conditioning %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-snow fs-3 text-info d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Air Conditioning</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.water_heater %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-thermometer-high fs-3 text-danger d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Water Heater</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.kitchen %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-egg-fried fs-3 text-warning d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Kitchen</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.borehole %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-light rounded-3">
+                <i class="bi bi-water fs-3 text-primary d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Borehole</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if property.network_coverage %}
+        <div class="col-6 col-md-3">
+            <div class="p-3 bg-info bg-opacity-10 rounded-3">
+                <i class="bi bi-phone fs-3 text-info d-block mb-1"></i>
+                <span class="fw-bold text-dark d-block">Good Network</span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>
                 <!-- Full Property Description -->
                 <div class="card card-body border-0 shadow-sm rounded-3 mb-4">
                     <h5 class="fw-bold mb-3">Description</h5>
@@ -261,14 +359,14 @@
                         <p class="text-muted small mb-4">Contact the listing agent or ChizzyHomes support for inquiries, price negotiations, or inspection schedules.</p>
 
                         {% if property.agent and property.agent.phone_number %}
-                            <a href="tel:{{ 09136990775 }}" class="btn btn-primary btn-lg w-100 fw-bold mb-2">
-                                <i class="bi bi-telephone-fill me-2"></i> Call Agent
-                            </a>
-                            <a href="https://wa.link/m55rro' }}?text=Hello,%20I'm%20interested%20in%20inspecting%20this%20property:%0A*{{ property.title|urlencode }}*%0A🔗%20{{ request.build_absolute_uri|urlencode }}" target="_blank" class="btn btn-success btn-lg w-100 fw-bold mb-3">
-                                <i class="bi bi-whatsapp me-2"></i> WhatsApp
-                            </a>
+                          <a href="tel:{{ property.phone_number }}" class="btn btn-primary btn-lg w-100 fw-bold mb-2">
+    <i class="bi bi-telephone-fill me-2"></i> Call Agent
+</a>
+<a href="{{ property.link }}?text=Hello,%20I'm%20interested%20in%20inspecting%20this%20property:%0A*{{ property.title|urlencode }}*%0A🔗%20{{ request.build_absolute_uri|urlencode }}" target="_blank" class="btn btn-success btn-lg w-100 fw-bold mb-3">
+    <i class="bi bi-whatsapp me-2"></i> WhatsApp
+</a>
                         {% else %}
-                            <a href="tel:+23470776669993" class="btn btn-primary btn-lg w-100 fw-bold mb-3">
+                            <a href="tel:+2349136990775" class="btn btn-primary btn-lg w-100 fw-bold mb-3">
                                 <i class="bi bi-telephone-fill me-2"></i> Contact ChizzyHomes
                             </a>
                         {% endif %}

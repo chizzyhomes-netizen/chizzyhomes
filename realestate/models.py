@@ -51,7 +51,9 @@ class Property(models.Model):
     )
 
     description = models.TextField()
-
+    phone_number = models.CharField(max_length=15, blank=True, null=True)
+    # Add the link field
+    link = models.URLField(blank=True, null=True)
     price = models.DecimalField(
         max_digits=12,
         decimal_places=2

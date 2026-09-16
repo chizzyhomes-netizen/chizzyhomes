@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'realestate',
+    'cloudinary',
+    'cloudinary_storage',
 ]
 
 MIDDLEWARE = [
@@ -169,3 +171,13 @@ STATICFILES_DIRS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 
+from pathlib import Path
+BASE_DIR = Path(__file__).resolve().parent.parent
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('chizzyhome'),
+    'API_KEY': os.environ.get('863987664362946'),
+    'API_SECRET': os.environ.get('Tl5YAI7Xjwe48MYt3gO2PJuRXrQ'),
+}
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
