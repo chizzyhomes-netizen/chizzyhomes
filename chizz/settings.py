@@ -175,9 +175,10 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 CLOUDINARY_STORAGE = {
-    'CLOUD_NAME': os.environ.get('chizzyhome'),
-    'API_KEY': os.environ.get('863987664362946'),
-    'API_SECRET': os.environ.get('Tl5YAI7Xjwe48MYt3gO2PJuRXrQ'),
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_SECRET'),
 }
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
